@@ -5,7 +5,6 @@ namespace TestProjectCalculator;
 
 public class Program
 {
-    public const string RegexString = @"[0-9\+\*\/\ \-]";
     public static void Main(string[] args)
     {
         Console.WriteLine("Please, input your query (like 2 + 1) and press Enter");
@@ -15,13 +14,6 @@ public class Program
         if (string.IsNullOrEmpty(inputQuery))
         {
             throw new CalculatorExceptionHandling(new NullReferenceException());
-        }
-
-        var regex = new Regex(RegexString);
-
-        if (!Regex.Match(inputQuery,RegexString).Success)
-        {
-            throw new CalculatorExceptionHandling(new ArgumentException(), "Incorrect query");
         }
 
         if (inputQuery.Length < 3)
@@ -44,6 +36,11 @@ public class Program
         List<string> queryList = new List<string>(splitQuery);
 
         Calculator.Calculate(queryList);
+
+        if (splitQuery.Length > 3)
+        {
+            throw new CalculatorExceptionHandling(new ArgumentException(), "Incorrect query!"); ;
+        }
 
         try
         {
