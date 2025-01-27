@@ -7,7 +7,7 @@ public class CalculatorHandler
         return firstNumber + secondNumber;
     }
 
-    public static double Substract(double firstNumber, double secondNumber)
+    public static double Subtract(double firstNumber, double secondNumber)
     {
         return firstNumber - secondNumber;
     }

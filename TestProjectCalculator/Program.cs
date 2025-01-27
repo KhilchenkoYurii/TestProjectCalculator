@@ -1,35 +1,60 @@
-﻿namespace TestProjectCalculator;
+﻿using System.Linq;
+using System.Text.RegularExpressions;
+
+namespace TestProjectCalculator;
 
 public class Program
 {
-    public static readonly char[] AllowedSpecialSymbols = ['+', '-', '*', '/', '(', ')'];
-
+    public const string RegexString = @"[0-9\+\*\/\ \-]";
     public static void Main(string[] args)
     {
-        Console.WriteLine("Please, input your query (like 2 + 1)");
+        Console.WriteLine("Please, input your query (like 2 + 1) and press Enter");
 
         var inputQuery = Console.ReadLine();
 
-        var splitedQuery = inputQuery.Split(' ');
-
-        var result = 0.0d;
-
-        if (splitedQuery.Length < 3)
+        if (string.IsNullOrEmpty(inputQuery))
         {
-            throw new Exception("Invalid query");
+            throw new CalculatorExceptionHandling(new NullReferenceException());
         }
 
-        List<string> queryList = new List<string>(splitedQuery);
+        var regex = new Regex(RegexString);
 
-        Calculator calculator = new Calculator();
+        if (!Regex.Match(inputQuery,RegexString).Success)
+        {
+            throw new CalculatorExceptionHandling(new ArgumentException(), "Incorrect query");
+        }
 
-        calculator.Calculate(queryList, "*", CalculatorHandler.Multiply);
-        calculator.Calculate(queryList, "/", CalculatorHandler.Divide);
-        calculator.Calculate(queryList, "+", CalculatorHandler.Add);
-        calculator.Calculate(queryList, "-", CalculatorHandler.Multiply);
+        if (inputQuery.Length < 3)
+        {
+            throw new CalculatorExceptionHandling(new ArgumentException());
+        }
 
-        result = double.Parse(queryList[0]);
+        var splitQuery = inputQuery.Split(' ');
 
-        Console.WriteLine($"Result: {result}");
+        if (string.IsNullOrEmpty(splitQuery[0]))
+        {
+            throw new CalculatorExceptionHandling(new NullReferenceException());
+        }
+
+        if (splitQuery.Length < 3)
+        {
+            throw new CalculatorExceptionHandling(new ArgumentException()); ;
+        }
+
+        List<string> queryList = new List<string>(splitQuery);
+
+        Calculator.Calculate(queryList);
+
+        try
+        {
+            var result = double.Parse(queryList[0]);
+
+            Console.WriteLine($"Result: {result}");
+        }
+        catch (FormatException ex)
+        {
+            throw new CalculatorExceptionHandling(new FormatException());
+        }
+
     }
 }
