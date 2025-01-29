@@ -81,11 +81,6 @@ public class Program
         {
             throw new CalculatorExceptionHandling(new NullReferenceException());
         }
-
-        if (inputArray.Length < 3)
-        {
-            throw new CalculatorExceptionHandling(new ArgumentException()); ;
-        }
     }
 
     private static double CheckResult(List<string> resultList)
