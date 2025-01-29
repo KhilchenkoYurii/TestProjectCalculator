@@ -7,21 +7,30 @@ public class Program
 {
     public static void Main(string[] args)
     {
-        Console.WriteLine("Please, input your query (like 2 + 1) and press Enter:");
+        while (true)
+        {
+            Console.WriteLine("Please, input your query (like 2 + 1) and press Enter:");
 
-        var inputQuery = Console.ReadLine();
+            var inputQuery = Console.ReadLine();
 
-        CheckInput(inputQuery);
+            if (inputQuery == "E")
+            {
+                break;
+            }
 
-        var splitQuery = inputQuery.Split(' ');
+            CheckInput(inputQuery);
 
-        CheckInputArray(splitQuery);
+            var splitQuery = inputQuery.Split(' ');
 
-        List<string> queryList = new List<string>(splitQuery);
+            CheckInputArray(splitQuery);
 
-        Calculator.Calculate(queryList);
+            List<string> queryList = new List<string>(splitQuery);
 
-        Console.WriteLine($"Result: {CheckResult(queryList)}");
+            Calculator.Calculate(queryList);
+
+            Console.WriteLine($"Result: {CheckResult(queryList)}");
+        }
+        
 
     }
 
