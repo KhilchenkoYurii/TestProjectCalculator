@@ -18,6 +18,11 @@ public class Calculator
                 var nextNumber = double.Parse(queryList[indexOfOperation + 1]);
                 var prevNumber = double.Parse(queryList[indexOfOperation - 1]);
 
+                if (nextNumber == 0.0d && calculatorHandler == CalculatorHandler.Divide)
+                {
+                    throw new CalculatorExceptionHandling("We can`t divide on 0 (zero)");
+                }
+
                 var result = calculatorHandler(prevNumber, nextNumber);
 
                 queryList.Insert(indexOfOperation + 2, result.ToString());

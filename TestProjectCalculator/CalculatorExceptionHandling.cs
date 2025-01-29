@@ -21,4 +21,9 @@ public class CalculatorExceptionHandling : Exception
     {
         Console.WriteLine(ex.Message);
     }
+
+    public CalculatorExceptionHandling(string ex)
+    {
+        Console.WriteLine(ex);
+    }
 }

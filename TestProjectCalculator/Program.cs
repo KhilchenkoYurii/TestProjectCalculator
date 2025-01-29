@@ -9,7 +9,7 @@ public class Program
     {
         while (true)
         {
-            Console.WriteLine("Please, input your query (like 2 + 1) and press Enter:");
+            Console.WriteLine("Please, input your query (like 2 + 1) and press Enter or type E to exit:");
 
             var inputQuery = Console.ReadLine();
 
