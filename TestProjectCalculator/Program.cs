@@ -5,6 +5,7 @@ namespace TestProjectCalculator;
 
 public class Program
 {
+    public static readonly char[] AllowedOperations = ['+', '-', '*', '/'];
     public static void Main(string[] args)
     {
         while (true)
@@ -13,6 +14,8 @@ public class Program
 
             var inputQuery = Console.ReadLine();
 
+
+
             if (inputQuery == "E")
             {
                 break;
@@ -20,17 +23,40 @@ public class Program
 
             CheckInput(inputQuery);
 
-            var splitQuery = inputQuery.Split(' ');
+            var trimInput = inputQuery.Replace(" ", string.Empty);
+            var operations = new List<char>();
 
+            for (int i = 0; i < trimInput.Length; i++)
+            {
+                if (!AllowedOperations.Contains(trimInput[i]))
+                {
+                    if (!Char.IsDigit(trimInput[i]))
+                    {
+                        throw new CalculatorExceptionHandling("Query can contain only digits and operations +, -, *, /");
+                    }
+                }
+                else
+                {
+                    operations.Add(trimInput[i]);
+                }
+            }
+
+            var splitQuery = inputQuery.Split(AllowedOperations);
+            
             CheckInputArray(splitQuery);
 
             List<string> queryList = new List<string>(splitQuery);
+
+            for (int i = 0; i < operations.Count; i++)
+            {
+                queryList.Insert(2 * i + 1, operations[i].ToString());
+            }
 
             Calculator.Calculate(queryList);
 
             Console.WriteLine($"Result: {CheckResult(queryList)}");
         }
-        
+
 
     }
 
@@ -45,6 +71,8 @@ public class Program
         {
             throw new CalculatorExceptionHandling(new ArgumentException());
         }
+
+        
     }
 
     private static void CheckInputArray(string[] inputArray)
